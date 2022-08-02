@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,55 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Navbar {
-  id                String    @id(map: "navbar_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  createdAt         DateTime? @default(now()) @db.Timestamptz(6)
-  siteId            String?   @db.Uuid
-  logoUrl           String?   @db.VarChar
-  backgroundColor   String?   @db.VarChar
-  title             String?   @db.VarChar
-  actionButtonTitle String?   @db.VarChar
-  actionButtonLink  String?   @db.VarChar
-}
-
-model NavbarLink {
-  id        String    @id(map: "navbarLinks_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  navbarId  String?   @db.Uuid
-  title     String?   @db.VarChar
-  path      String?   @db.VarChar
-  createdAt DateTime? @default(now()) @db.Timestamptz(6)
-}
-
-model Page {
-  id           String    @id(map: "pages_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  siteId       String?   @db.Uuid
-  notionPageId String?   @db.VarChar
-  pagePath     String?   @db.VarChar
-  createdAt    DateTime? @default(now()) @db.Timestamptz(6)
-}
-
-model Site {
-  createdBy       String?   @db.Uuid
-  notionPageId    String    @db.VarChar
-  created_at      DateTime? @default(now()) @db.Timestamptz(6)
-  domain          String?   @db.VarChar
-  subdomain       String?   @db.VarChar
-  vercelProjectId String?   @db.VarChar
-  id              String    @id(map: "sites_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-}
-
-model SiteStyle {
-  css           String?
-  font          String?   @db.VarChar
-  created_at    DateTime? @default(now()) @db.Timestamptz(6)
-  siteId        String?   @unique(map: "siteStyle_siteId_key") @db.Uuid
-  id            String    @id(map: "siteStyle_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  displayHeader Boolean   @default(false)
-}
-
 model User {
-  email      String?   @db.VarChar
-  password   String?   @db.VarChar
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  id         String    @id(map: "users_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  email    String @unique
+  password String
 }
